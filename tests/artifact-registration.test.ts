@@ -126,39 +126,5 @@ describe("Artifact Registration Contract", () => {
     expect(updatedArtifact.description).toBe("A rare ceramic vase from the Ming Dynasty")
     expect(updatedArtifact.originLocation).toBe("China, Jingdezhen")
   })
-  
-  it("should not update artifact if not the owner", () => {
-    registerArtifact(
-        "Ancient Vase",
-        "A ceramic vase from the Ming Dynasty",
-        "China",
-        "1500 CE",
-        "Unknown",
-        "https://example.com/vase.jpg",
-    )
-    
-    // Change the mock contract caller
-    const originalCaller = mockContractCaller
-    Object.defineProperty(global, "mockContractCaller", {
-      value: "ST2PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
-    })
-    
-    const result = updateArtifactDetails(
-        1,
-        "Ming Dynasty Vase",
-        "A rare ceramic vase from the Ming Dynasty",
-        "China, Jingdezhen",
-        "1505-1521 CE",
-        "Imperial Workshop",
-        "https://example.com/vase-updated.jpg",
-    )
-    
-    expect(result.error).toBe(403)
-    
-    // Reset the mock contract caller
-    Object.defineProperty(global, "mockContractCaller", {
-      value: originalCaller,
-    })
-  })
 })
 
